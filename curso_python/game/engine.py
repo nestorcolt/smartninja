@@ -1,11 +1,12 @@
 import datetime
-import json
 import random
+import json
 
 
 #############################################################################################
 
 class Engine:
+
     def __init__(self):
         self.secret_number = 22
         self.attempts = 0
@@ -29,6 +30,7 @@ class Engine:
             if guess == self.secret_number:
                 print("You've guessed it - congratulations! It's number " + str(self.secret_number))
                 self.statistics.append(self.statistics_model(attempts=self.attempts, date=self.get_current_time()))
+                self.save_statistics()
                 break
 
             elif guess > self.secret_number:
@@ -45,21 +47,22 @@ class Engine:
         result = current_time.strftime("%m/%d/%y, %H:%M:%S")
         return result
 
+    def save_statistics(self):
+        with open("statistics.txt", mode='w') as score_file:
+            score_file.write(str(self.statistics))
+            score_file.close()
+
+    def load_statistics(self):
+        with open("statistics.txt", mode='r') as score_file:
+            store_data = score_file.read()
+            return store_data
+
 
 #############################################################################################
 # run
 if __name__ == '__main__':
     game = Engine()
     game.play()
-
-# for item in my_info:
-#     for name, data in item.items():
-#         print(name, data)
-#
-# with open("score.txt", mode='r') as score_file:
-#     store_data = int(score_file.read())
-#
-# if attempts < store_data:
-#     with open("score.txt", mode='w') as score_file:
-#         score_file.write(str(attempts))
-#         store_data = attempts
+    statistics = game.load_statistics()
+    print(type(statistics))
+    # print(statistics[0])
