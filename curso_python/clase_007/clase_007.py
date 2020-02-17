@@ -1,11 +1,11 @@
 from urllib.request import urlopen
 import json
 
-# with open("data.json") as file:
-#     data = json.load(file)
-#
-# with open("people.json", "w") as dumper:
-#     dump_data = json.dump(data, dumper, ensure_ascii=True, indent=4, separators=[":", ","])
+with open("data.json") as file:
+    data = json.load(file)
+
+with open("people.json", "w") as dumper:
+    dump_data = json.dump(data, dumper, ensure_ascii=True, indent=4, separators=[":", ","])
 
 
 #############################################################################################
