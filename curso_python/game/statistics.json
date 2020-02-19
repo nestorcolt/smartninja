@@ -1,0 +1,14 @@
+[
+    {
+        "player":"nestor",
+        "attempts":1,
+        "date":"02/19/20, 19:32:00",
+        "fails":0
+    },
+    {
+        "player":"javier",
+        "attempts":3,
+        "date":"02/19/20, 19:32:18",
+        "fails":2
+    }
+]

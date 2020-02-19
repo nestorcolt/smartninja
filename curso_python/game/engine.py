@@ -13,7 +13,11 @@ class Engine:
         self.attempts = 0
         self.statistics = []
         self.player = "Jhon"
+        self.statistics_filename = "statistics.json"
         self.statistics_path = None
+
+        # Create file path
+        self.get_statistics_path()
 
     def statistics_model(self, player_name, attempts, date):
         fails = attempts - 1
@@ -59,36 +63,40 @@ class Engine:
         result = current_time.strftime("%m/%d/%y, %H:%M:%S")
         return result
 
-    def save_statistics(self):
+    def save_statistics(self, data=[]):
+        data = self.statistics if not data else data
+        #
         with open(self.statistics_path, mode='w') as score_file:
-            json.dump(self.statistics, score_file, ensure_ascii=True, indent=4, separators=[",", ":"])
+            json.dump(data, score_file, ensure_ascii=True, indent=4, separators=[",", ":"])
 
     def load_statistics(self):
+        if not os.path.exists(self.statistics_path):
+            return False
+
         with open(self.statistics_path, mode='r') as score_file:
             store_data = json.load(score_file)
             return store_data
 
-    def create_statistics_file(self):
+    def get_statistics_path(self):
         current_working_dir = os.getcwd()
-        full_statistics_path = os.path.join(current_working_dir, self.statistics_path)
+        full_statistics_path = os.path.join(current_working_dir, self.statistics_filename)
         self.statistics_path = full_statistics_path
-        #
-        if not os.path.exists(full_statistics_path):
-            #
-            model = self.statistics_model(player_name=self.player,
-                                          attempts=self.attempts,
-                                          date=self.get_current_time())
-            return model, full_statistics_path
 
-        else:
-            print(False)
+    def create_statistics_data(self):
+        model = self.statistics_model(player_name=self.player,
+                                      attempts=self.attempts,
+                                      date=self.get_current_time())
+        return model
 
     def update_statistics(self):
         data = self.load_statistics()
+
         if data:
-            pass
+            model = self.create_statistics_data()
+            data.append(model)
+            self.save_statistics(data)
         else:
-            model, path = self.create_statistics_file()
+            model = self.create_statistics_data()
             self.statistics.append(model)
             # Save
             self.save_statistics()
@@ -99,4 +107,4 @@ class Engine:
 if __name__ == '__main__':
     game = Engine()
     game.play()
-    # game.create_statistics_file()
+    # game.create_statistics_data()
