@@ -30,30 +30,25 @@ class Engine:
         }
         return model
 
-    def get_player_name(self):
-        user = input("Hey there, Welcome to guess the secret number!\n\tPlease enter your name: ")
+    def get_player_name(self, user):
         self.player = user
-        print("-----------------------------------------------------------------------------------")
 
-    def play(self):
-        # Fetch the current player game
-        self.get_player_name()
+    def show_result(self):
+        result = "Here is the best and recent player info"
+        return result
 
-        # Game loop
-        while True:
-            guess = int(input("Guess the secret number (between 1 and 30): "))
-            self.attempts += 1
+    def play(self, guess=22):
+        self.attempts += 1
 
-            if guess == self.secret_number:
-                print("You've guessed it - congratulations! It's number " + str(self.secret_number))
-                self.update_statistics()
-                break
+        if guess == self.secret_number:
+            self.update_statistics()
+            return self.show_result()
 
-            elif guess > self.secret_number:
-                print("Your guess is not correct... try something smaller")
+        elif guess > self.secret_number:
+            return "Your guess is not correct... try something smaller"
 
-            elif guess < self.secret_number:
-                print("Your guess is not correct... try something bigger")
+        elif guess < self.secret_number:
+            return "Your guess is not correct... try something bigger"
 
     def get_secret_number(self):
         self.secret_number = random.randint(1, 50)
